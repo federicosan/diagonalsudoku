@@ -37,23 +37,29 @@ def naked_twins(values):
     Returns:
         the values dictionary with the naked twins eliminated from peers.
     """
-
+    #print('BEFORE_NT:', values)
     # Find all instances of naked twins
     # Eliminate the naked twins as possibilities for their peers
-    naked_twins = [ (x,z) for x in values.keys() for z in values.keys() if ((x!=z) and (values[x] == values[z]) and (len(values[x])==2) and (x[0]==z[0] or x[1]==z[1]))]
-    print('naked_twins:',naked_twins)
-    for pair in naked_twins:
-        fst = pair[0]
-        snd = pair[1]
-        digits = values[fst]
-        print(digits)
-        for peer in peers[fst]:
-            if(peer != snd):
-                print(type(digits))
-                if(digits[0] in values[peer]):
-                    values[peer] = values[peer].replace(digits[0],'')
-                if(digits[1] in values[peer]):
-                    values[peer] = values[peer].replace(digits[1],'')               
+    naked_twins = { x:z for x in values.keys() for z in values.keys() if ((x!=z) and (values[x] == values[z]) and (len(values[x])==2) and (x[0]==z[0] or x[1]==z[1]))}
+    naked_twins_without_repeats ={}
+    for naked_twin in naked_twins.keys():
+        if (not naked_twin in naked_twins_without_repeats):
+            naked_twins_without_repeats[naked_twin] = (naked_twins[naked_twin], values[naked_twin])
+    print('naked_twins:', naked_twins_without_repeats)
+    
+    for twin in naked_twins_without_repeats.keys():
+        if (naked_twins_without_repeats[twin] != ''):
+            fst_digit = twin[0]
+            snd_digit = twin[1]
+    for peer in peers[twin]:
+            #print(peer)
+            print('peer',peer)
+            print('twin',twin)
+            if (peer != naked_twins[twin]):
+                values[peer] = values[peer].replace(fst_digit,'')
+                values[peer] = values[peer].replace(snd_digit,'')               
+    
+    #print('AFTER NT:', values)
     return values
 
     
