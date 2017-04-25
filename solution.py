@@ -21,7 +21,7 @@ units = dict((s, [u for u in unitlist if s in u]) for s in boxes)
 peers = dict((s, set(sum(units[s],[]))-set([s])) for s in boxes)
 print('A2 peers',peers['A2'])
 print('A1 peers', peers['A1'])
-
+print('E5 peers',peers['E5'])
 
 def assign_value(values, box, value):
     """
