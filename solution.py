@@ -8,11 +8,20 @@ rows = 'ABCDEFGHI'
 cols = '123456789'
 boxes = cross(rows, cols)
 row_units = [cross(r, cols) for r in rows]
+print(row_units)
+diagonal_units =[[],[]]
+for r in range(0,9):
+    diagonal_units[0].append(rows[r]+cols[r])
+    diagonal_units[1].append(rows[8-r]+cols[r])
+print(diagonal_units)
 column_units = [cross(rows, c) for c in cols]
 square_units = [cross(rs, cs) for rs in ('ABC','DEF','GHI') for cs in ('123','456','789')]
-unitlist = row_units + column_units + square_units
+unitlist = row_units + column_units + square_units + diagonal_units
 units = dict((s, [u for u in unitlist if s in u]) for s in boxes)
 peers = dict((s, set(sum(units[s],[]))-set([s])) for s in boxes)
+print('A2 peers',peers['A2'])
+print('A1 peers', peers['A1'])
+
 
 def assign_value(values, box, value):
     """
@@ -93,6 +102,11 @@ def eliminate(values):
         digit = values[box]
         for peer in peers[box]:
             values[peer] = values[peer].replace(digit,'')
+        #for diag in diagonal_units:
+         #   if box in diag:
+          #      for dbox in diag:
+           #         values[box] = values[dbox].replace(digit,'') 
+
     return values
 
 def only_choice(values):
