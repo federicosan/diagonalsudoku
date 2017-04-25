@@ -4,15 +4,20 @@ def cross(A, B):
     "Cross product of elements in A and elements in B."
     return [s+t for s in A for t in B]
 
+def bix_x(rows, cols):
+    diagonals_units= [[],[]]
+    offset= len(cols)-1
+    for r in range(0,len(rows)):
+        diagonals_units[0].append(rows[r]+cols[r])
+        diagonals_units[1].append(rows[offset-r]+cols[r])
+    return  diagonals_units
+
 rows = 'ABCDEFGHI'
 cols = '123456789'
 boxes = cross(rows, cols)
 row_units = [cross(r, cols) for r in rows]
 print(row_units)
-diagonal_units =[[],[]]
-for r in range(0,9):
-    diagonal_units[0].append(rows[r]+cols[r])
-    diagonal_units[1].append(rows[8-r]+cols[r])
+diagonal_units = bix_x(rows,cols)
 print(diagonal_units)
 column_units = [cross(rows, c) for c in cols]
 square_units = [cross(rs, cs) for rs in ('ABC','DEF','GHI') for cs in ('123','456','789')]
@@ -155,6 +160,7 @@ def solve(grid):
     Returns:
         The dictionary representation of the final sudoku grid. False if no solution exists.
     """
+    return search(grid_values(grid))
 
 if __name__ == '__main__':
     diag_sudoku_grid = '2.............62....1....7...6..8...3...9...7...6..4...4....8....52.............3'
